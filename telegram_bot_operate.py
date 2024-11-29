@@ -24,7 +24,7 @@ def telegram_bot_operate(token,
     # Ответ на текстовое сообщение
     if message.text:
       bot.send_message(message.chat.id, 'Код получен, идёт анализ');
-      bot.send_message(message.chat.id, check_mess(message.text););
+      bot.send_message(message.chat.id, check_mess(message.text));
 
     #file
     if message.document:
