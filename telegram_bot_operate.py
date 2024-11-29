@@ -24,7 +24,7 @@ def telegram_bot_operate(token,
     # Ответ на текстовое сообщение
     if message.text:
       bot.send_message(message.chat.id, 'Код получен, идёт анализ');
-      check_mess(message.text);
+      bot.send_message(message.chat.id, check_mess(message.text););
 
     #file
     if message.document:
@@ -35,9 +35,8 @@ def telegram_bot_operate(token,
         downloaded_file = bot.download_file(file_info.file_path);
 
         if(file_name.split('.')[len(file_name.split('.')) - 1] == "zip"):
-          check_archive(downloaded_file);
+            bot.send_message(message.chat.id, check_archive(downloaded_file));
         else:
-          check_file(downloaded_file);
+            bot.send_message(message.chat.id, check_file(downloaded_file));
 
   bot.polling(none_stop=True);
-
