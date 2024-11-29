@@ -1,9 +1,9 @@
 import telebot
 
 def telegram_bot_operate(token,
-                         check_archive= (lambda x: print("error")),
-                         check_file= (lambda x: print("error")),
-                         check_mess= (lambda x: print("error"))):
+                         check_archive_= (lambda x: print("error")),
+                         check_file_= (lambda x: print("error")),
+                         check_mess_= (lambda x: print("error"))):
   bot = telebot.TeleBot(token);
 
   # Обработчики команд
@@ -24,7 +24,9 @@ def telegram_bot_operate(token,
     # Ответ на текстовое сообщение
     if message.text:
       bot.send_message(message.chat.id, 'Код получен, идёт анализ');
-      bot.send_message(message.chat.id, check_mess(message.text));
+      output = check_mess_(message.text);
+      print(output)
+      bot.send_message(message.chat.id, output);
 
     #file
     if message.document:
@@ -35,8 +37,8 @@ def telegram_bot_operate(token,
         downloaded_file = bot.download_file(file_info.file_path);
 
         if(file_name.split('.')[len(file_name.split('.')) - 1] == "zip"):
-            bot.send_message(message.chat.id, check_archive(downloaded_file));
+            bot.send_message(message.chat.id, check_archive_(downloaded_file));
         else:
-            bot.send_message(message.chat.id, check_file(downloaded_file));
+            bot.send_message(message.chat.id, check_file_(downloaded_file));
 
   bot.polling(none_stop=True);
