@@ -98,7 +98,7 @@ def run_vulture(file_path):
 def check_file(test_code):
     output = ""
     with open("test_code.py", "w") as f:
-        f.write(test_code)
+        f.write(str(test_code))
 
     # Упорядочивание импортов с помощью isort
     output += "Форматирование импортов с помощью isort:\n"
