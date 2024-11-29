@@ -95,56 +95,55 @@ def run_vulture(file_path):
 
 
 def check_file(test_code):
+    output = ""
     with open("test_code.py", "w") as f:
         f.write(test_code)
 
     # Упорядочивание импортов с помощью isort
-    print("Форматирование импортов с помощью isort:")
+    output += "Форматирование импортов с помощью isort:\n"
     run_isort("test_code.py")
     with open("test_code.py", "r") as f:
-        print(f.read())
-    print()
+        output += f.read() + "\n"
+    output += "\n"
 
     # Форматирование кода с помощью yapf
-    print("Форматирование кода с помощью yapf:")
+    output += "Форматирование кода с помощью yapf:\n"
+
     run_yapf("test_code.py")
     with open("test_code.py", "r") as f:
-        print(f.read())
-    print()
+        output += f.read() + "\n"
+    output += "\n"
 
     # Тестирование поиска в базе знаний
-    print("Тестирование поиска в базе знаний:")
+    output += "Тестирование поиска в базе знаний:\n"
     query = "Что такое PEP 8?"
     result = search_knowledge_base(query)
-    print(f"Запрос: {query}")
-    print(f"Результат: {result}")
-    print()
+    output += f"Запрос: {query}\n Результат: {result}\n\n"
+
 
     # Тестирование flake8
-    print("Тестирование flake8:")
-    print(run_flake8("test_code.py"))
-    print()
+    output += "Тестирование flake8:\n"
+    output += run_flake8("test_code.py") + "\n\n"
+
 
     # Тестирование pylint
-    print("Тестирование pylint:")
-    print(run_pylint("test_code.py"))
-    print()
+    output += "Тестирование pylint:\n"
+    output += run_pylint("test_code.py") + "\n\n"
+
 
     # Тестирование radon
-    print("Тестирование radon:")
-    print(run_radon("test_code.py"))
-    print()
+    output += "Тестирование radon:\n"
+    output += run_radon("test_code.py") + "\n\n"
 
     # Тестирование autopep8
-    print("Форматирование кода с помощью autopep8:")
-    formatted_code = autopep8_format("test_code.py")
-    print(formatted_code)
-    print()
+    output += "Форматирование кода с помощью autopep8:\n"
+    output += autopep8_format("test_code.py") + "\n\n"
 
-    print("Форматирование кода с помощью black:")
-    formatted_code_black = format_with_black("test_code.py")
-    print(formatted_code_black)
 
-    vulture_report = run_vulture("test_code.py")
-    print("Результаты анализа с помощью vulture:")
-    print(vulture_report)
+    output += "Форматирование кода с помощью black:\n"
+    output += format_with_black("test_code.py") + "\n"
+
+
+    output += "Результаты анализа с помощью vulture:\n" + run_vulture("test_code.py") + "\n"
+
+    return output
