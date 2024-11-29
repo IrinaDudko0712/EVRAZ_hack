@@ -26,7 +26,12 @@ def telegram_bot_operate(token,
       bot.send_message(message.chat.id, 'Код получен, идёт анализ');
       output = check_mess_(message.text);
       print(output)
-      bot.send_message(message.chat.id, output);
+      if len(output) > 4095:
+          for x in range(0, len(output), 4095):
+              bot.reply_to(message, text=output[x:x+4095])
+      else:
+          bot.reply_to(message, text=m)
+      //bot.send_message(message.chat.id, output);
 
     #file
     if message.document:
