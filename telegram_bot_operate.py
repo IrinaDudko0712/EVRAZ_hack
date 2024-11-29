@@ -31,7 +31,7 @@ def telegram_bot_operate(token,
               bot.reply_to(message, text=output[x:x+4095])
       else:
           bot.reply_to(message, text=m)
-      //bot.send_message(message.chat.id, output);
+      #bot.send_message(message.chat.id, output);
 
     #file
     if message.document:
