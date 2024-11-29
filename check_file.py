@@ -1,6 +1,7 @@
 import subprocess
 import faiss
 from sentence_transformers import SentenceTransformer
+import os
 
 # Инициализация базы знаний для RAG
 knowledge_base = [
@@ -146,4 +147,5 @@ def check_file(test_code):
 
     output += "Результаты анализа с помощью vulture:\n" + run_vulture("test_code.py") + "\n"
 
+    os.remove("test_code.py")
     return output
