@@ -82,11 +82,13 @@ def get_analize_struct(file):
 
 def run(file):
   ans = get_analize_struct(file)
+  print(ans)
   f = open("output.md", "wb")
   f.write(ans)
   f.close()
 
-  f = open("output.md", "r")
-  f.close()
-  os.remove("output.md")
-  return f
+  f = open("output.md", "rb")
+  # f.close()
+  # os.remove("output.md")
+  print(f)
+  return "README.md"
