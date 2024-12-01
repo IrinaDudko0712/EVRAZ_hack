@@ -149,4 +149,8 @@ def check_file(test_code):
     output += "Результаты анализа с помощью vulture:\n" + run_vulture("test_code.py") + "\n"
 
     os.remove("test_code.py")
-    return output
+    f = open("output.md", "wb")
+    f.write(output)
+    f.close()
+    os.remove("output.md")
+    return f
