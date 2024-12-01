@@ -1,5 +1,6 @@
 import zipfile
 import os
+import shutil
 import json
 import csv
 import fnmatch
@@ -129,7 +130,7 @@ def save_report_to_csv(check_results, output_path):
     print(f"Report saved to CSV: {output_path}")
 
 
-def analyze_zip_from_file(zip_file, extract_folder, output_folder):
+def analyze_zip(zip_file, extract_folder, output_folder):
     zip_name = "uploaded_archive"
     target_folder = os.path.join(extract_folder, zip_name)
 
@@ -245,18 +246,40 @@ def run(file):
 #### выходная функция проверки #####
 
 def archive_analysis(input):
+    f_tmp = open("input.zip", "wb")
+    f_tmp.write(input)
+    f_tmp.close()
+    f_tmp = open("input.zip", "rb")
     extract_folder = 'extracted_folder/'
     output_folder = '.'
 
-    check_results = analyze_zip(input, extract_folder, output_folder)
-    # os.remove(zip_file_path)
-    # os.remove(extract_folder)
+    check_results = analyze_zip(f_tmp, extract_folder, output_folder)
 
     output = run(check_results)
-    print(output)
-    f = open("output.md", "wb")
+    #print(output)
+    folder = 'extracted_folder/'
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print('Failed to delete %s. Reason: %s' % (file_path, e))
+
+    os.remove("uploaded_archive_folder_structure.md")
+    os.remove("uploaded_archive_structure_check_result.csv")
+    os.remove("uploaded_archive_structure_check_result.txt")
+    if output is None:
+      output = "maded by ai"
+    f = open("output.md", "w")
     f.write(output)
+    f_copy = open("output.md", "r")
     f.close()
     os.remove("output.md")
 
-    return f
+    f_tmp.close()
+    os.remove("input.zip")
+
+    return f_copy

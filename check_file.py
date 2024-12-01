@@ -98,7 +98,8 @@ def run_vulture(file_path):
 def check_file(test_code):
     #print(test_code)
     output = ""
-    with open("test_code.py", "w") as f:
+
+    with open("test_code.py", "wb") as f:
         f.write(test_code)
 
     # Упорядочивание импортов с помощью isort
@@ -149,8 +150,9 @@ def check_file(test_code):
     output += "Результаты анализа с помощью vulture:\n" + run_vulture("test_code.py") + "\n"
 
     os.remove("test_code.py")
-    f = open("output.md", "wb")
+    f = open("output.md", "w")
     f.write(output)
+    f_copy = open("output.md", "r")
     f.close()
     os.remove("output.md")
-    return f
+    return f_copy
