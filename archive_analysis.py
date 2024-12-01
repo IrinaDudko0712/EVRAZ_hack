@@ -30,13 +30,13 @@ expected_folders_tree = {
 }
 
 
-def unzip_and_list_files(zip_path, extract_to):
-    # Извлекаем название архива без расширения
-    zip_name = os.path.basename(zip_path).split('.')[0]
-    extract_folder = os.path.join(extract_to, zip_name)  # Создаем папку с именем архива
+def unzip_and_list_files_from_file(zip_file, extract_to):
+    # Используем BytesIO для работы с файлом в памяти
+    zip_name = "uploaded_archive"  # Или задайте имя по заголовкам, если известно
+    extract_folder = os.path.join(extract_to, zip_name)
 
-    with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-        zip_ref.extractall(extract_folder)  # Извлекаем в папку с именем архива
+    with zipfile.ZipFile(zip_file, 'r') as zip_ref:
+        zip_ref.extractall(extract_folder)
         return list_files(extract_folder)
 
 
@@ -129,14 +129,14 @@ def save_report_to_csv(check_results, output_path):
     print(f"Report saved to CSV: {output_path}")
 
 
-def analyze_zip(zip_file_path, extract_folder, output_folder):
-    zip_name = os.path.basename(zip_file_path).split('.')[0]
+def analyze_zip_from_file(zip_file, extract_folder, output_folder):
+    zip_name = "uploaded_archive"
     target_folder = os.path.join(extract_folder, zip_name)
 
     if not os.path.exists(target_folder):
         os.makedirs(target_folder)
 
-    found_folders, folder_structure = unzip_and_list_files(zip_file_path, extract_folder)
+    found_folders, folder_structure = unzip_and_list_files_from_file(zip_file, extract_folder)
     root_folder_candidates = [folder for folder in found_folders if "/" not in folder and folder]
     filtered_candidates = [f for f in root_folder_candidates if not f.startswith(".")]
     root_folder = filtered_candidates[0] if len(filtered_candidates) == 1 else ""
@@ -245,14 +245,13 @@ def run(file):
 #### выходная функция проверки #####
 
 def archive_analysis(input):
-    zip_file_path = './input.zip'
     extract_folder = 'extracted_folder/'
     output_folder = '.'
     f = open(zip_file_path, "wb")
     f.write(input)
     f.close()
 
-    check_results = analyze_zip(zip_file_path, extract_folder, output_folder)
+    check_results = analyze_zip(input, extract_folder, output_folder)
     os.remove(zip_file_path)
     os.remove(extract_folder)
 
