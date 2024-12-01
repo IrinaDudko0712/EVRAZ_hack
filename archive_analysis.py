@@ -247,13 +247,10 @@ def run(file):
 def archive_analysis(input):
     extract_folder = 'extracted_folder/'
     output_folder = '.'
-    f = open(zip_file_path, "wb")
-    f.write(input)
-    f.close()
 
     check_results = analyze_zip(input, extract_folder, output_folder)
-    os.remove(zip_file_path)
-    os.remove(extract_folder)
+    # os.remove(zip_file_path)
+    # os.remove(extract_folder)
 
     output = run(check_results)
     print(output)
