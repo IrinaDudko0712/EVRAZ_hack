@@ -4,6 +4,7 @@ import pandas as pd
 import subprocess
 import faiss
 from sentence_transformers import SentenceTransformer
+import os
 
 API_URL = "http://84.201.152.196:8020/v1/completions"
 API_KEY = "GSeOiIxvB3jpNqZPiedbT7itLerwukZG"
